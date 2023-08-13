@@ -1,0 +1,14 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+    <h1>Редактирование объявления</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="{{ form.text.id_for_label }}">Текст:</label>
+        <textarea id="{{ form.text.id_for_label }}" name="{{ form.text.name }}" rows="10" required>{{ form.text.value }}</textarea><br>
+
+        {{ form.as_p }}
+        <button type="submit">Сохранить изменения</button>
+    </form>
+    <a href="{% url 'post_list' %}">Назад к списку объявлений</a>
+{% endblock %}

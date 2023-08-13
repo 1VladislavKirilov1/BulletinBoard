@@ -1,0 +1,65 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+    <h1>Все объявления</h1>
+    {% if user.is_authenticated %}
+        <a href="{% url 'post_create' %}">Создать объявление</a>
+        <a href="{% url 'account_logout' %}">Выход</a>
+    {% else %}
+        <a href="{% url 'account_login' %}">Вход</a>
+    {% endif %}
+
+    {% if posts %}
+        <p>Объявления ({{ posts|length }}):</p>
+        <ul>
+            {% for post in posts %}
+                <li>
+                    <h2>{{ post.title }}</h2>
+                    <p>{{ post.text }}</p>
+                    {% if post.upload %}
+                        {% with file_extension=post.upload.url|slice:"-4:" %}
+                            {% if file_extension|lower == ".jpg" or file_extension|lower == ".png" %}
+                                <img src="{{ post.upload.url }}" alt="Image" style="max-width: 200px; max-height: 200px;">
+                            {% elif file_extension|lower == ".mp4" %}
+                                <video controls>
+                                    <source src="{{ post.upload.url }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            {% else %}
+                                <a href="{{ post.upload.url }}">Скачать файл</a>
+                            {% endif %}
+                        {% endwith %}
+                    {% endif %}
+                    <p>Категория: {{ post.category.name }}</p>
+                    <p>Автор: {{ post.user.username }}</p>
+                    {% if request.user == post.user %}
+                        <a href="{% url 'post_edit' post.id %}">Редактировать</a>
+                        <a href="{% url 'post_delete' post.id %}">Удалить</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+        {% if posts.has_other_pages %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if posts.has_previous %}
+                        <a href="?page=1">&laquo; первая</a>
+                        <a href="?page={{ posts.previous_page_number }}">предыдущая</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Страница {{ posts.number }} из {{ posts.paginator.num_pages }}.
+                    </span>
+
+                    {% if posts.has_next %}
+                        <a href="?page={{ posts.next_page_number }}">следующая</a>
+                        <a href="?page={{ posts.paginator.num_pages }}">последняя &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        {% endif %}
+    {% else %}
+        <p>Нет доступных объявлений.</p>
+    {% endif %}
+{% endblock content %}
