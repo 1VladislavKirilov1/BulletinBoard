@@ -1,0 +1,24 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.text }}</p>
+    {% if post.upload %}
+        {% with file_extension=post.upload.url|slice:"-4:" %}
+            {% if file_extension|lower == ".jpg" or file_extension|lower == ".png" %}
+                <img src="{{ post.upload.url }}" alt="Image" style="max-width: 200px; max-height: 200px;">
+            {% elif file_extension|lower == ".mp4" %}
+                <video controls>
+                    <source src="{{ post.upload.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            {% else %}
+                <a href="{{ post.upload.url }}">Скачать файл</a>
+            {% endif %}
+        {% endwith %}
+    {% endif %}
+    <p>Категория: {{ post.category.name }}</p>
+    <p>Автор: {{ post.user.username }}</p>
+    <a href="{% url 'subscribe' post.category.id %}">Подписаться на категорию</a>
+    <a href="{% url 'unsubscribe' category.id %}">Отписаться от рассылки</a>
+{% endblock content %}

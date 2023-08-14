@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Новости из категории {{ post.category.name }}</title>
+</head>
+<body>
+    <h2>Привет, {{ user.username }}!</h2>
+    <p>В категории {{ post.category.name }} появилось новое объявление:</p>
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.text }}</p>
+    <p>Посмотреть объявление: <a href="{% url 'post_detail' post.id %}">Ссылка</a></p>
+    <p>Если вы больше не хотите получать рассылку из этой категории, вы можете <a href="{% url 'unsubscribe' post.category.id %}">отписаться</a>.</p>
+</body>
+</html>

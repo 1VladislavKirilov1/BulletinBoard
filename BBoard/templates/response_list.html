@@ -1,0 +1,10 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+  <h2>Список ваших откликов</h2>
+  <ul>
+    {% for response in responses %}
+      <li>{{ response.text }} - <a href="{% url 'response_accept' response.id %}">Принять</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

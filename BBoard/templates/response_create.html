@@ -1,0 +1,10 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+  <h2>Отправить отклик на объявление "{{ post.title }}"</h2>
+  <form method="post">
+    {% csrf_token %}
+    <textarea name="text" rows="4" cols="50"></textarea><br>
+    <button type="submit">Отправить отклик</button>
+  </form>
+{% endblock %}

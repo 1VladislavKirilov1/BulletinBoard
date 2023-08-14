@@ -1,0 +1,26 @@
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
+    <h1>Отклики для меня</h1>
+    
+    <form method="get">
+        {{ form.as_p }}
+        <button type="submit">Фильтровать</button>
+    </form>
+
+    {% if responses_for_me %}
+        <ul>
+            {% for response in responses_for_me %}
+                <li>
+                    <p>Отклик от пользователя: {{ response.sender.username }}</p>
+                    <p>Текст отклика: {{ response.text }}</p>
+                    <p>Объявление: {{ response.article.title }}</p>
+                    <a href="{% url 'response_accept' response.id %}">Принять отклик</a>
+                    <a href="{% url 'response_reject' response.id %}">Отклонить отклик</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Пока нет откликов для вас.</p>
+    {% endif %}
+{% endblock content %}

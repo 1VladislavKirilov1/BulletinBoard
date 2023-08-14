@@ -5,8 +5,11 @@
     {% if user.is_authenticated %}
         <a href="{% url 'post_create' %}">Создать объявление</a>
         <a href="{% url 'account_logout' %}">Выход</a>
+        <a href="{% url 'response_list' %}">Мои отклики</a>
+        <a href="{% url 'response_list_for_me' %}">Отклики для меня</a>
     {% else %}
         <a href="{% url 'account_login' %}">Вход</a>
+        <a href="{% url 'account_signup' %}">Регистрация</a>
     {% endif %}
 
     {% if posts %}
@@ -32,9 +35,12 @@
                     {% endif %}
                     <p>Категория: {{ post.category.name }}</p>
                     <p>Автор: {{ post.user.username }}</p>
+                    <a href="{% url 'post_detail' post.id %}">Подробнее</a> <!-- Добавлена кнопка "Подробнее" -->
                     {% if request.user == post.user %}
                         <a href="{% url 'post_edit' post.id %}">Редактировать</a>
                         <a href="{% url 'post_delete' post.id %}">Удалить</a>
+                    {% elif user.is_authenticated and user != post.user %}
+                        <a href="{% url 'response_create' post.id %}">Отклик</a>
                     {% endif %}
                 </li>
             {% endfor %}
@@ -44,7 +50,9 @@
             <div class="pagination">
                 <span class="step-links">
                     {% if posts.has_previous %}
-                        <a href="?page=1">&laquo; первая</a>
+                        {% if posts.number > 2 %}
+                            <a href="?page=1">&laquo; первая</a>
+                        {% endif %}
                         <a href="?page={{ posts.previous_page_number }}">предыдущая</a>
                     {% endif %}
 

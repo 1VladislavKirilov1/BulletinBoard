@@ -15,6 +15,11 @@ class Category(models.Model):
         return self.name
 
 
+class Subscription(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+
 class Post(models.Model):
     TYPE = (
         ('tank', 'Танки'),
