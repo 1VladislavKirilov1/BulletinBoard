@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'board.apps.BoardConfig',
-    'fpages',
     'BBoard',
     'allauth',
     'allauth.account',
