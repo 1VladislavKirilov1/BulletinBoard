@@ -221,7 +221,7 @@ def response_accept(request, response_id):
         if action == 'accept':
             send_mail(
                 'Ваш отклик принят',
-                f'Пользователь {request.user.username} принял ваш отклик на объявление: {response.post.title}',
+                f'Пользователь {request.user.username} принял ваш отклик на объявление: {response.article.title}',
                 'noreply@yourdomain.com',
                 [response.sender.email],
                 fail_silently=False,
